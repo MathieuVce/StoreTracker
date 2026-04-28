@@ -1,11 +1,6 @@
-import { Text, View } from 'react-native';
+import React from 'react'
+import RootNavigator from './src/navigation/RootNavigator'
 
-function App() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 36, fontWeight: 'bold' }}>StoreTracker</Text>
-    </View>
-  );
+export default function App() {
+  return <RootNavigator />
 }
-
-export default App;
