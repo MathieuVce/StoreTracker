@@ -10,13 +10,22 @@ import {
 import type { StoreCategory } from '../../../types'
 import { COLORS, FONT_SIZE, FONT_WEIGHT, RADIUS, SPACING } from '../../../theme'
 import { STORE_CATEGORIES, STORE_CATEGORY } from '../../../types'
-import { useStoresContext } from '../context/StoresContext'
 
-export default function StoreFilters() {
-  const { searchQuery, setSearchQuery, selectedCategory, setSelectedCategory } = useStoresContext()
+type Props = {
+  searchQuery: string
+  onSearchChange: (q: string) => void
+  selectedCategory: StoreCategory | null
+  onCategoryChange: (c: StoreCategory | null) => void
+}
 
+export default function StoreFilters({
+  searchQuery,
+  onSearchChange,
+  selectedCategory,
+  onCategoryChange,
+}: Props) {
   function toggleCategory(category: StoreCategory) {
-    setSelectedCategory(selectedCategory === category ? null : category)
+    onCategoryChange(selectedCategory === category ? null : category)
   }
 
   return (
@@ -26,7 +35,7 @@ export default function StoreFilters() {
         placeholder="Rechercher un magasin..."
         placeholderTextColor={COLORS.textTertiary}
         value={searchQuery}
-        onChangeText={setSearchQuery}
+        onChangeText={onSearchChange}
         returnKeyType="search"
       />
       <ScrollView
@@ -36,7 +45,7 @@ export default function StoreFilters() {
       >
         <TouchableOpacity
           style={[styles.filter, selectedCategory === null && styles.filterSelected]}
-          onPress={() => setSelectedCategory(null)}
+          onPress={() => onCategoryChange(null)}
           accessibilityRole="button"
           accessibilityState={{ selected: selectedCategory === null }}
         >

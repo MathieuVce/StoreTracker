@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import type { Store, StoreCategory } from '../../../types'
+import type { Store } from '../../../types'
 import { MOCK_STORES } from '../../../api/mocks/storeMocks'
 
 type TStoresContext = {
@@ -7,10 +7,6 @@ type TStoresContext = {
   isLoading: boolean
   isRefreshing: boolean
   refresh: () => void
-  searchQuery: string
-  setSearchQuery: (query: string) => void
-  selectedCategory: StoreCategory | null
-  setSelectedCategory: (category: StoreCategory | null) => void
 }
 
 const StoresContext = createContext<TStoresContext | null>(null)
@@ -19,8 +15,6 @@ export function StoresProvider({ children }: { children: React.ReactNode }) {
   const [stores, setStores] = useState<Store[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<StoreCategory | null>(null)
 
   const fetchStores = useCallback((refreshing = false) => {
     if (refreshing) {
@@ -47,9 +41,7 @@ export function StoresProvider({ children }: { children: React.ReactNode }) {
   }, [fetchStores])
 
   return (
-    <StoresContext.Provider
-      value={{ stores, isLoading, isRefreshing, refresh, searchQuery, setSearchQuery, selectedCategory, setSelectedCategory }}
-    >
+    <StoresContext.Provider value={{ stores, isLoading, isRefreshing, refresh }}>
       {children}
     </StoresContext.Provider>
   )

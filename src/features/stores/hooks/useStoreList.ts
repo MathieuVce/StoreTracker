@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
+import type { StoreCategory } from '../../../types'
 import { useStoresContext } from '../context/StoresContext'
 
-export function useStoreList() {
-  const { stores, isLoading, isRefreshing, refresh, searchQuery, selectedCategory } = useStoresContext()
+export function useStoreList(searchQuery: string, selectedCategory: StoreCategory | null) {
+  const { stores, isLoading, isRefreshing, refresh } = useStoresContext()
 
   const filteredStores = useMemo(() => {
     const query = searchQuery.toLowerCase().trim()
