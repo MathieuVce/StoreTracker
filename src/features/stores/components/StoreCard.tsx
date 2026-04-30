@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import type { Store } from '../../../types'
-import { COLORS, FONT_SIZE, FONT_WEIGHT, RADIUS, SHADOWS, SPACING, TEXT } from '../../../theme'
+import { COLORS, FONT_SIZE, FONT_WEIGHT, ICON_SIZE, RADIUS, SHADOWS, SPACING, TEXT } from '../../../theme'
 import { STORE_CATEGORY } from '../../../types'
+import { useFavorites } from '../../favorites/context/FavoritesContext'
 
 type Props = {
   store: Store
@@ -10,6 +12,9 @@ type Props = {
 }
 
 export default function StoreCard({ store, onPress }: Props) {
+  const { isFavorite, toggleFavorite } = useFavorites()
+  const favorited = isFavorite(store.id)
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -23,6 +28,17 @@ export default function StoreCard({ store, onPress }: Props) {
           <Text style={TEXT.h4}>{store.name}</Text>
           <Text style={styles.category}>{STORE_CATEGORY[store.category].name}</Text>
         </View>
+        <TouchableOpacity
+          onPress={() => toggleFavorite(store)}
+          accessibilityRole="button"
+          accessibilityLabel={favorited ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+        >
+          <Ionicons
+            name={favorited ? 'heart' : 'heart-outline'}
+            size={ICON_SIZE.lg}
+            color={favorited ? COLORS.primary : COLORS.textTertiary}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.footer}>
         <Text style={[TEXT.body, styles.location]} numberOfLines={1}>

@@ -5,17 +5,24 @@ import type { TTabScreenProps } from '../../../types'
 import { ROUTES } from '../../../navigation/routes'
 import { COLORS, SPACING } from '../../../theme'
 import { useStoreList } from '../hooks/useStoreList'
+import { useStoreFilter } from '../hooks/useStoreFilter'
 import StoreCard from '../components/StoreCard'
 import StoreFilters from '../components/StoreFilters'
 
 type Props = TTabScreenProps<typeof ROUTES.SCREEN_STORE_LIST>
 
 export default function StoreListScreen({ navigation }: Props) {
-  const { stores, isLoading, isRefreshing, refresh } = useStoreList()
+  const { searchQuery, setSearchQuery, selectedCategory, setSelectedCategory } = useStoreFilter()
+  const { stores, isLoading, isRefreshing, refresh } = useStoreList(searchQuery, selectedCategory)
 
   return (
     <SafeAreaView style={styles.screen} edges={['top']}>
-      <StoreFilters />
+      <StoreFilters
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
       {isLoading ? (
         <View style={styles.loaderBox}>
           <ActivityIndicator size="large" color={COLORS.primary} />
