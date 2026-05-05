@@ -1,3 +1,18 @@
+type TStoreTitle = { name: string; icon: string }
+
+export const STORE_CATEGORY = {
+  supermarket:  { name: 'Supermarché',  icon: '🛒' },
+  bakery:       { name: 'Boulangerie',  icon: '🥐' },
+  pharmacy:     { name: 'Pharmacie',    icon: '💊' },
+  clothing:     { name: 'Vêtements',    icon: '👔' },
+  electronics:  { name: 'Électronique', icon: '💻' },
+  restaurant:   { name: 'Restaurant',   icon: '🍽️' },
+} as const satisfies Record<string, TStoreTitle>
+
+export type StoreCategory = keyof typeof STORE_CATEGORY
+
+export const STORE_CATEGORIES = Object.keys(STORE_CATEGORY) as StoreCategory[]
+
 export interface Coordinates {
   latitude: number
   longitude: number
@@ -9,14 +24,6 @@ export interface OpeningHours {
   close: string
   closed: boolean
 }
-
-export type StoreCategory =
-  | 'supermarket'
-  | 'bakery'
-  | 'pharmacy'
-  | 'clothing'
-  | 'electronics'
-  | 'restaurant'
 
 export interface Store {
   id: string
