@@ -1,13 +1,13 @@
 type TStoreTitle = { name: string; icon: string }
 
-export const STORE_CATEGORY: Record<string, TStoreTitle> = {
+export const STORE_CATEGORY = {
   supermarket:  { name: 'Supermarché',  icon: '🛒' },
   bakery:       { name: 'Boulangerie',  icon: '🥐' },
   pharmacy:     { name: 'Pharmacie',    icon: '💊' },
   clothing:     { name: 'Vêtements',    icon: '👔' },
   electronics:  { name: 'Électronique', icon: '💻' },
   restaurant:   { name: 'Restaurant',   icon: '🍽️' },
-} as const;
+} as const satisfies Record<string, TStoreTitle>
 
 export type StoreCategory = keyof typeof STORE_CATEGORY
 

@@ -17,16 +17,26 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const loaded = useRef(false)
 
   useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEY).then((data) => {
-      if (data) setFavorites(JSON.parse(data))
-      loaded.current = true
-    })
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then((data) => {
+        if (data) {
+          try {
+            setFavorites(JSON.parse(data))
+          } catch {
+            AsyncStorage.removeItem(STORAGE_KEY)
+          }
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        loaded.current = true
+      })
   }, [])
 
   // Guard avoids overwriting AsyncStorage before initial read completes
   useEffect(() => {
     if (!loaded.current) return
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(favorites))
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(favorites)).catch(() => {})
   }, [favorites])
 
   const isFavorite = useCallback(

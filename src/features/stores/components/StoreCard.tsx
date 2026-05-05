@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import type { Store } from '../../../types'
 import { COLORS, FONT_SIZE, FONT_WEIGHT, ICON_SIZE, RADIUS, SHADOWS, SPACING, TEXT } from '../../../theme'
@@ -28,8 +28,11 @@ export default function StoreCard({ store, onPress }: Props) {
           <Text style={TEXT.h4}>{store.name}</Text>
           <Text style={styles.category}>{STORE_CATEGORY[store.category].name}</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => toggleFavorite(store)}
+        <Pressable
+          onPress={() => {
+            toggleFavorite(store)
+          }}
+          hitSlop={8}
           accessibilityRole="button"
           accessibilityLabel={favorited ? 'Retirer des favoris' : 'Ajouter aux favoris'}
         >
@@ -38,7 +41,7 @@ export default function StoreCard({ store, onPress }: Props) {
             size={ICON_SIZE.lg}
             color={favorited ? COLORS.primary : COLORS.textTertiary}
           />
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View style={styles.footer}>
         <Text style={[TEXT.body, styles.location]} numberOfLines={1}>
